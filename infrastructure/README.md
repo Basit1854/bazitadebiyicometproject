@@ -22,11 +22,24 @@ This repository contains infrastructure-as-code for deploying resources in AWS, 
 │           - Shared networking components
 │
 └── modules/
-      └── Custom Terraform modules used across the project.
-          - Encourages reusability
-          - Provides consistent architecture patterns
-          
-          In rare cases where a single, small resource is required, 
-          we may directly leverage official AWS Terraform modules.
-          Direct resource creation without modules should be considered 
-          a last resort to maintain consistency and reduce drift.
+```
+
+### Usage
+
+Each workspace under `app-*` composes the modules to deploy a full environment.
+For example, `app-hello-basit-comet` provisions the VPC and EKS cluster used by
+the demo application. Deploy the stack with:
+
+```bash
+terraform init
+terraform apply
+```
+
+The resulting outputs include the cluster endpoint and a kubeconfig snippet that
+can be written to `~/.kube/config` for direct access. After apply completes, run
+
+```bash
+aws eks --region <region> update-kubeconfig --name <cluster-name>
+```
+
+to configure `kubectl` against the new cluster.
