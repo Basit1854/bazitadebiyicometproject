@@ -19,7 +19,7 @@ def home():
 def greeting():
     name = request.args.get(
         "name", "there"
-    )  # Default to 'there' if no name is provided
+    )  # Default to 'there' if no name is provided.
     message = f"Hi {name}, I'm Bazit. This was served from container {POD_NAME}."
 
     # content negtiation logic
