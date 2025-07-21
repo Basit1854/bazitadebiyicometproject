@@ -9,6 +9,24 @@ variable "cluster_version" {
   default     = "1.32"
 }
 
+variable "cluster_endpoint_public_access" {
+  description = "Whether the cluster endpoint should be publicly accessible"
+  type        = bool
+  default     = true
+}
+
+variable "cluster_endpoint_private_access" {
+  description = "Whether the cluster endpoint should be privately accessible"
+  type        = bool
+  default     = true
+}
+
+variable "kms_key_arn" {
+  description = "KMS key ARN used for cluster secrets encryption"
+  type        = string
+  default     = null
+}
+
 variable "vpc_id" {
   description = "ID of the VPC where EKS will be deployed"
   type        = string
@@ -94,5 +112,11 @@ variable "ebs_csi_driver_role" {
 #   type        = string
 #   default     = "v1.21.0-eksbuild.1"
 # }
+
+variable "create_cloudwatch_log_group" {
+  description = "Whether to create the CloudWatch log group for EKS"
+  type        = bool
+  default     = false
+}
 
 
