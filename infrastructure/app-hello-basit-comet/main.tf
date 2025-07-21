@@ -21,7 +21,7 @@ module "comet_eks" {
 
       # Launch instances without public IPs since our subnets don't auto assign
       network_interfaces = [{
-        associate_public_ip_address = false
+        associate_public_ip_address = true
       }]
 
       labels = {
