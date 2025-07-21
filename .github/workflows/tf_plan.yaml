@@ -20,6 +20,7 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v2
         with:
@@ -34,12 +35,20 @@ jobs:
 
       - name: Terraform Init
         run: terraform init
+        working-directory: infrastructure/app-hello-basit-comet
+
+      - name: Terraform Refresh
+        run: terraform refresh
+        working-directory: infrastructure/app-hello-basit-comet
 
       - name: Terraform Plan
         id: plan
-        run: terraform plan -no-color | tee plan.txt
+        run: |
+          terraform plan -no-color -out=tfplan
+          terraform show -no-color tfplan > plan.txt
+        working-directory: infrastructure/app-hello-basit-comet
 
       - name: Post Plan to PR
         uses: marocchino/sticky-pull-request-comment@v2
         with:
-          path: plan.txt
+          path: infrastructure/app-hello-basit-comet/plan.txt
