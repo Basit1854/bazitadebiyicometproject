@@ -19,6 +19,11 @@ module "comet_eks" {
 
       capacity_type = "ON_DEMAND"
 
+      # Launch instances without public IPs since our subnets don't auto assign
+      network_interfaces = [{
+        associate_public_ip_address = false
+      }]
+
       labels = {
         role = "worker"
       }
