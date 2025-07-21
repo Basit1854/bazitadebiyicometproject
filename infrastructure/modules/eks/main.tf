@@ -7,7 +7,8 @@ module "eks" {
 
   bootstrap_self_managed_addons = false
 
-  cluster_endpoint_public_access = true
+  cluster_endpoint_public_access  = var.cluster_endpoint_public_access
+  cluster_endpoint_private_access = var.cluster_endpoint_private_access
 
   enable_irsa                        = true
   vpc_id                             = var.vpc_id
@@ -21,6 +22,11 @@ module "eks" {
   #cluster_role_arn                  = var.cluster_role_arn
 
   enable_cluster_creator_admin_permissions = true
+
+  cluster_encryption_config = var.kms_key_arn != null ? [{
+    provider_key_arn = var.kms_key_arn
+    resources        = ["secrets"]
+  }] : []
 
   cluster_addons = var.active ? {} : {
     coredns = {
